@@ -1,0 +1,6 @@
+//2022-05-30
+
+
+DOMAIN-SUFFIX, cl2-cn.apple.com, REJECT-DROP
+DOMAIN-SUFFIX, cl4-cn.apple.com, REJECT-DROP
+DOMAIN-SUFFIX, cl5.apple.com, REJECT-DROP
