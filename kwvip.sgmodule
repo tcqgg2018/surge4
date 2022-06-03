@@ -1,0 +1,9 @@
+#!name=酷我音乐
+#!desc=vip
+
+[MITM]
+hostname = musicpay.kuwo.cn, vip1.kuwo.cn
+
+[Script]
+酷我会员 = type=http-response,pattern=^https?:\/\/vip1\.kuwo\.cn\/(vip\/v2\/user\/vip|vip\/spi/mservice),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Script/kwyy.js,script-update-interval=0
+无损下载 = type=http-request,pattern=^https?:\/\/musicpay\.kuwo\.cn\/music\.pay\?newver=\d,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Script/kwyy.js,script-update-interval=0
