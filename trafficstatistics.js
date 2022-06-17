@@ -61,8 +61,8 @@ if(net=="en0") {
 		`峰值 ➟ ${outMaxSpeed} | ${inMaxSpeed}`,
 		icon: params.icon,
 		  "icon-color":params.color,
-                "background-color":"rgba(0,0,0,0.1)",
-               "font-size":"20px"
+              
+               "font-color":"#FF0000"
     });
 
 })()
