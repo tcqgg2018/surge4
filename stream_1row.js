@@ -28,12 +28,23 @@ function getFlagEmoji(region) {
     .map((char) => 127397 + char.charCodeAt());
   return String.fromCodePoint(...codePoints);
 }
+Date.prototype.Format = function (fmt) {
+    var o = {
+        "H+": this.getHours(), 
+        "m+": this.getMinutes(),
+        "s+": this.getSeconds(),
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36'
 
 
   ;(async () => {
     let panel_result = {
-      title: '流媒体解锁检测',
+      title: '流媒体解锁检测' + new Date().Format("HH:mm:ss"),
       content: '',
       icon: 'lock.open.display',
       'icon-color': '#FF2D55',
