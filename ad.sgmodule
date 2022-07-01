@@ -1,6 +1,5 @@
-
 #!name=去广告精简版
-#!desc=
+#!desc=blackmatrix7
 
 
 # NAME: AdvertisingLite
@@ -12,7 +11,7 @@
 # TOTAL:772
 
 [URL Rewrite]
-# REJECT
+
 ^https:\/\/god\.gameyw\.netease\.com\/v1\/ad\/.* - reject
 ^https?:\/\/((25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\.){3}(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)(:\d+)?\/V\d\/splash\/getSplashV\d\.action$ - reject
 ^https?:\/\/((25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\.){3}(25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d):\d+/xygj-config-api\/queryData - reject
