@@ -118,7 +118,7 @@ async function checkChatGPT() {
       }, {});
       let ip = cf.ip;
       let warp = cf.warp;
-      let loc = getCountryFlagEmoji(cf.loc) + | + cf.loc;
+      let loc = getCountryFlagEmoji(cf.loc) +' | '+ cf.loc;
 
       let l = tf.indexOf(cf.loc);
       let gpt, iconUsed, iconCol;
