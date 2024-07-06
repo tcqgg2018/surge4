@@ -1,0 +1,22 @@
+[General]
+bypass-system = true
+loglevel = notify
+
+[Proxy]
+# 这里可以配置你的代理，如果需要的话
+# 示例:
+# HTTP = http, 127.0.0.1, 8888, username, password
+
+[Rule]
+DOMAIN-SUFFIX,ads.xiaomingcalculator.com,REJECT
+DOMAIN-SUFFIX,ad.xiaomingcalculator.com,REJECT
+DOMAIN-SUFFIX,track.xiaomingcalculator.com,REJECT
+DOMAIN-SUFFIX,analytics.xiaomingcalculator.com,REJECT
+
+# 其他规则
+FINAL,DIRECT
+
+[Host]
+# 这里可以配置你的主机，如果需要的话
+# 示例:
+# localhost = 127.0.0.1
