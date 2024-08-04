@@ -5,7 +5,6 @@
  * 更新日期：2023.08.03
  * 更新日期：2024.08.04
  * 版本：3.2
-
  */
 
 /**
@@ -81,9 +80,8 @@ function randomString(e = 6) {
 }
 
 function getFlagEmoji(countryCode) {
-
-if (countryCode.toUpperCase() == 'TW') {
-    countryCode = 'CN'
+  if (countryCode.toUpperCase() == 'TW') {
+    countryCode = 'CN';
   }
 
   const codePoints = countryCode
@@ -136,6 +134,8 @@ function loadCarrierNames() {
 }
 
 //获取手机运营商信息(通过内置的 API 调用设备信息)
+
+
 function getCellularInfo() {
   const radioGeneration = {
     'GPRS': '2.5G',
@@ -204,7 +204,8 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         getIP() +
         `节点IP：${info.query}\n` +
         `节点ISP：${info.isp}\n` +
-        `节点位置：${getFlagEmoji(info.countryCode)} | ${info.country} - ${info.city}`,
+        `节点位置：${getFlagEmoji(info.countryCode)} | ${info.country} - ${info.city}\n` +
+        `刷新时间：${new Date().Format("HH:mm:ss")}`,
       icon: getSSID() ? 'wifi' : 'simcard',
       'icon-color': getSSID() ? '#5A9AF9' : '#8AB8DD',
     });
@@ -262,3 +263,18 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   logger.log("Script start");
   getNetworkInfo(retryTimes, retryInterval);
 })();
+
+/**
+ * 时间格式化函数
+ */
+Date.prototype.Format = function (fmt) {
+  var o = {
+    "H+": this.getHours(), 
+    "m+": this.getMinutes(),
+    "s+": this.getSeconds(),
+  };
+  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  for (var k in o)
+  if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+  return fmt;
+};
