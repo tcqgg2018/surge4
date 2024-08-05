@@ -136,6 +136,7 @@ function loadCarrierNames() {
 //获取手机运营商信息(通过内置的 API 调用设备信息)
 
 
+
 function getCellularInfo() {
   const radioGeneration = {
     'GPRS': '2.5G',
@@ -155,15 +156,25 @@ function getCellularInfo() {
 
   let cellularInfo = '';
   const carrierNames = loadCarrierNames();
-  if ($network['cellular-data']) {
-    const carrierId = $network['cellular-data'].carrier;
-    const radio = $network['cellular-data'].radio;
-    if (carrierId && radio) {
-      cellularInfo = carrierNames[carrierId] ?
-        carrierNames[carrierId] + ' | ' + radioGeneration[radio] + ' - ' + radio :
-        '蜂窝数据 | ' + radioGeneration[radio] + ' - ' + radio;
+
+  try {
+    if ($network && $network['cellular-data']) {
+      const carrierId = $network['cellular-data'].carrier;
+      const radio = $network['cellular-data'].radio;
+      if (carrierId && radio) {
+        cellularInfo = carrierNames[carrierId] ?
+          carrierNames[carrierId] + ' | ' + radioGeneration[radio] + ' - ' + radio :
+          '蜂窝数据 | ' + radioGeneration[radio] + ' - ' + radio;
+      } else {
+        cellularInfo = '蜂窝数据信息未获取';
+      }
+    } else {
+      cellularInfo = '未连接蜂窝数据';
     }
+  } catch (error) {
+    cellularInfo = '获取蜂窝数据时出错';
   }
+  
   return cellularInfo;
 }
 
@@ -193,7 +204,10 @@ function getIP() {
  */
 function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
   // 发送网络请求
-  httpMethod.get('http://ip-api.com/json').then(response => {
+  httpMethod.get({
+    url: 'http://ip-api.com/json',
+    headers: { Host: 'ip-api.com' },
+  }).then(response => {
     if (Number(response.status) > 300) {
       throw new Error(`Request error with http status code: ${response.status}\n${response.data}`);
     }
@@ -205,7 +219,7 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
         `节点IP：${info.query}\n` +
         `节点ISP：${info.isp}\n` +
         `节点位置：${getFlagEmoji(info.countryCode)} | ${info.country} - ${info.city}\n` +
-        `刷新时间：${new Date().Format("HH:mm:ss")}`,
+        `刷新时间：${new Date().Format("yyyy-MM-dd HH:mm:ss")}`,
       icon: getSSID() ? 'wifi' : 'simcard',
       'icon-color': getSSID() ? '#5A9AF9' : '#8AB8DD',
     });
@@ -269,12 +283,17 @@ function getNetworkInfo(retryTimes = 5, retryInterval = 1000) {
  */
 Date.prototype.Format = function (fmt) {
   var o = {
-    "H+": this.getHours(), 
-    "m+": this.getMinutes(),
-    "s+": this.getSeconds(),
-  };
+        "M+": this.getMonth() + 1, 
+        "d+": this.getDate(), 
+        "H+": this.getHours(), 
+        "m+": this.getMinutes(),
+        "s+": this.getSeconds(), 
+        "q+": Math.floor((this.getMonth() + 3) / 3), 
+        "S": this.getMilliseconds() 
+    };
+ 
   if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
   for (var k in o)
-  if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+  if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" +  o[k]).length)));
   return fmt;
 };
