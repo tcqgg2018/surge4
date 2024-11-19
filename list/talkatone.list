@@ -3,7 +3,7 @@
 # 本模块附带 Talkatone 去广告规则，可去除 APP 内的部分第三方广告
 # 2024-11-19 23:42
 
-# 以下为该软件需要走代理的规则
+# 以下为该软件需要走直连的规则
 
 DOMAIN-SUFFIX,inner-active.mobi
 DOMAIN-SUFFIX,mobilefuse.com
