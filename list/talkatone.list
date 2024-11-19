@@ -4,7 +4,7 @@
 # 2024-11-19 23:42
 
 # 以下为该软件需要走代理的规则
-DOMAIN-SUFFIX,tktn.be
+
 DOMAIN-SUFFIX,inner-active.mobi
 DOMAIN-SUFFIX,mobilefuse.com
 DOMAIN-SUFFIX,inmobi.com
