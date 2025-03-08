@@ -1,18 +1,4 @@
-我明白你想修改这个脚本，让台湾（TW）的国旗显示为原本的台湾旗帜，而不是被替换为中国（CN）的旗帜。这个脚本中有一个函数 getCountryFlagEmoji，它会将 “TW” 替换为 “CN”。我们可以简单地移除这个替换逻辑。
-以下是修改后的 getCountryFlagEmoji 函数，去掉了将 “TW” 替换为 “CN” 的部分：
-// 获取国旗 Emoji 函数（修改后）
-function getCountryFlagEmoji(countryCode) {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split('')
-    .map(char => 127397 + char.charCodeAt());
-  return String.fromCodePoint(...codePoints);
-}
-修改说明
-	•	原脚本中的 if (countryCode.toUpperCase() == 'TW') { countryCode = 'CN'; } 被移除。
-	•	这样，当 countryCode 为 “TW” 时，它会直接生成台湾的国旗 Emoji（🇹🇼），而不是中国的国旗 Emoji（🇨🇳）。
-完整修改后的脚本
-以下是将修改后的 getCountryFlagEmoji 函数融入完整脚本的结果。你可以直接使用这个版本：
+
 /*
  * 由@LucaLin233编写
  * 原脚本地址：https://raw.githubusercontent.com/LucaLin233/Luca_Conf/main/Surge/JS/stream-all.js
@@ -393,7 +379,4 @@ function timeout(delay = 5000) {
     }, delay);
   });
 }
-测试结果
-	•	当地区代码为 “TW” 时，脚本将显示台湾的国旗 🇹🇼，而不是中国的国旗 🇨🇳。
-	•	其他功能保持不变，依然可以检测流媒体服务（如 Disney+、YouTube、Netflix 等）的解锁状态。
-如果你需要进一步调整或有其他需求，请告诉我！
+
