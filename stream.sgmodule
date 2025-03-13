@@ -1,1 +1,10 @@
-id
+#!name=Panels
+#!desc=流媒体📺
+
+[Panel]
+stream68 = script-name=stream68, title="流媒体解锁检测", content="请刷新面板", update-interval= 60
+
+[Script]
+
+#流媒体+GPT
+stream68 = type=generic, timeout=15, script-path=https://raw.githubusercontent.com/tcqgg2018/surge4/main/stream_GPT.js
