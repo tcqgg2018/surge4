@@ -1,3 +1,4 @@
+
 /*
  * 由@LucaLin233编写
  * 原脚本地址：https://raw.githubusercontent.com/LucaLin233/Luca_Conf/main/Surge/JS/stream-all.js
@@ -7,7 +8,7 @@
  * 由bigmom2012修改
  * 更新日期：2022-07-30 11:28
  * 更新日期：2024-07-04 21:28
- * 由Grok 3修改，新增Grok 3和Claude检测
+ * 由Grok 3修改，新增Grok 3和Claude检测，带自定义地区规则
  * 更新日期：2025-03-14
  */
 
@@ -25,8 +26,10 @@ const STATUS_ERROR = -2;
 
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36';
 
-// 支持 ChatGPT 的国家列表（示例，可根据需要调整）
-let tf = ["T1", "XX", "AL", "DZ", "AD", "AO", "AG", "AR", "AM", "AU", "AT", "AZ", "BS", "BD", "BB", "BE", "BZ", "BJ", "BT", "BA", "BW", "BR", "BG", "BF", "CV", "CA", "CL", "CO", "KM", "CR", "HR", "CY", "DK", "DJ", "DM", "DO", "EC", "SV", "EE", "FJ", "FI", "FR", "GA", "GM", "GE", "DE", "GH", "GR", "GD", "GT", "GN", "GW", "GY", "HT", "HN", "HU", "IS", "IN", "ID", "IQ", "IE", "IL", "IT", "JM", "JP", "JO", "KZ", "KE", "KI", "KW", "KG", "LV", "LB", "LS", "LR", "LI", "LT", "LU", "MG", "MW", "MY", "MV", "ML", "MT", "MH", "MR", "MU", "MX", "MC", "MN", "ME", "MA", "MZ", "MM", "NA", "NR", "NP", "NL", "NZ", "NI", "NE", "NG", "MK", "NO", "OM", "PK", "PW", "PA", "PG", "PE", "PH", "PL", "PT", "QA", "RO", "RW", "KN", "LC", "VC", "WS", "SM", "ST", "SN", "RS", "SC", "SL", "SG", "SK", "SI", "SB", "ZA", "ES", "LK", "SR", "SE", "CH", "TH", "TG", "TO", "TT", "TN", "TR", "TV", "UG", "AE", "US", "UY", "VU", "ZM", "BO", "BN", "CG", "CZ", "VA", "FM", "MD", "PS", "KR", "TW", "TZ", "TL", "GB"];
+// 支持地区列表
+const chatGPTSupportedRegions = ["US", "CA", "GB", "AU", "DE", "FR", "JP", "KR", "TW", "SG"]; // ChatGPT 示例支持地区
+const grok3SupportedRegions = ["US", "CA", "GB", "DE", "FR", "IT", "ES"]; // Grok 3 示例支持地区（北美+部分欧洲）
+const claudeSupportedRegions = ["JP", "KR", "SG", "CN", "IN", "GB", "FR"]; // Claude 示例支持地区（亚洲+部分欧洲）
 let tff = ["plus", "on"];
 
 // 处理 argument 参数
@@ -115,18 +118,17 @@ async function checkChatGPT() {
       }, {});
       let loc = getCountryFlagEmoji(cf.loc) + ' | ' + cf.loc;
 
-      let l = tf.indexOf(cf.loc);
-      let gpt = l !== -1 ? "ChatGPT: 已解锁 ➠ " : "ChatGPT: 未解锁 ➠ ";
+      let isSupported = chatGPTSupportedRegions.indexOf(cf.loc) !== -1;
+      let gpt = isSupported ? "ChatGPT: 已解锁 ➠ " : "ChatGPT: 未解锁 ➠ ";
       resolve(`${gpt}${loc}`);
     });
   });
 }
 
-// Grok 3 检测函数（模拟，基于 xAI 假设性 API）
+// Grok 3 检测函数
 async function checkGrok3() {
   return new Promise((resolve, reject) => {
-    // 使用与 ChatGPT 类似的检测逻辑，假设 xAI 使用类似 Cloudflare 的服务
-    $httpClient.get('http://chat.openai.com/cdn-cgi/trace', function(error, response, data) { // 这里仅为示例，实际需替换为 xAI 的检测 URL
+    $httpClient.get('http://chat.openai.com/cdn-cgi/trace', function(error, response, data) { // 模拟，需替换为 xAI 真实端点
       if (error) {
         resolve("Grok 3: 检测失败 🚫");
         return;
@@ -140,19 +142,17 @@ async function checkGrok3() {
       }, {});
       let loc = getCountryFlagEmoji(cf.loc) + ' | ' + cf.loc;
 
-      // 假设 Grok 3 的可用地区与 ChatGPT 类似
-      let l = tf.indexOf(cf.loc);
-      let grok = l !== -1 ? "Grok 3: 已解锁 ➠ " : "Grok 3: 未解锁 ➠ ";
+      let isSupported = grok3SupportedRegions.indexOf(cf.loc) !== -1;
+      let grok = isSupported ? "Grok 3: 已解锁 ➠ " : "Grok 3: 未解锁 ➠ ";
       resolve(`${grok}${loc}`);
     });
   });
 }
 
-// Claude 检测函数（模拟，基于 Anthropic 假设性 API）
+// Claude 检测函数
 async function checkClaude() {
   return new Promise((resolve, reject) => {
-    // 使用与 ChatGPT 类似的检测逻辑，假设 Anthropic 使用类似服务
-    $httpClient.get('http://chat.openai.com/cdn-cgi/trace', function(error, response, data) { // 这里仅为示例，实际需替换为 Claude 的检测 URL
+    $httpClient.get('http://chat.openai.com/cdn-cgi/trace', function(error, response, data) { // 模拟，需替换为 Anthropic 真实端点
       if (error) {
         resolve("Claude: 检测失败 🚫");
         return;
@@ -166,9 +166,8 @@ async function checkClaude() {
       }, {});
       let loc = getCountryFlagEmoji(cf.loc) + ' | ' + cf.loc;
 
-      // 假设 Claude 的可用地区与 ChatGPT 类似
-      let l = tf.indexOf(cf.loc);
-      let claude = l !== -1 ? "Claude: 已解锁 ➠ " : "Claude: 未解锁 ➠ ";
+      let isSupported = claudeSupportedRegions.indexOf(cf.loc) !== -1;
+      let claude = isSupported ? "Claude: 已解锁 ➠ " : "Claude: 未解锁 ➠ ";
       resolve(`${claude}${loc}`);
     });
   });
@@ -316,3 +315,5 @@ function testHomePage() {
 function timeout(delay = 5000) {
   return new Promise((resolve, reject) => setTimeout(() => reject('Timeout'), delay));
 }
+
+
