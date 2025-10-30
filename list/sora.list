@@ -1,0 +1,16 @@
+# Sora App (OpenAI) 分流规则 - 走代理绕过限制
+DOMAIN-SUFFIX,sora.com,Proxy
+DOMAIN-SUFFIX,openai.com,Proxy
+DOMAIN-SUFFIX,api.openai.com,Proxy       # OpenAI API（Sora 核心请求）
+DOMAIN-SUFFIX,platform.openai.com,Proxy  # API 文档和认证
+DOMAIN-SUFFIX,cdn.openai.com,Proxy       # 视频/CDN 相关
+
+# 可选：OpenAI 的 AWS IP 段（覆盖 App 的 CDN 或视频流）
+IP-CIDR,52.84.0.0/16,Proxy     # AWS US-East-1（OpenAI 常用）
+IP-CIDR,18.64.0.0/14,Proxy     # AWS 其他区域
+
+# 国内直连（可选，避免无关流量走代理）
+GEOIP,CN,DIRECT
+
+# 默认规则（其他流量走默认代理）
+FINAL,Proxy
